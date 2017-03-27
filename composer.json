@@ -1,7 +1,7 @@
 {
     "name": "webboy/fub-api-client",
     "description": "Laravel 5.x api client library for Follow Up Boss service",
-    "version" : "v1.1.3",
+    "version" : "0.0.1",
     "keywords": ["models", "traits", "laravel","webboy"],
     "license": "MIT",
     "authors": [
