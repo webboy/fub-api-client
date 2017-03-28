@@ -55,7 +55,7 @@ class FubClient
 
 		try
 		{
-			$response = new FubResponse($this->http_client->request($method,$final_url,$this->request_params));		
+			$response = new FubResponse($this->http_client->request($method,$final_url,$this->request_params));					
 			return $response;
 			
 		} catch (ClientException $e)
@@ -88,11 +88,16 @@ class FubClient
 		return $this->request('PUT',$url,null,$data);
 	}
 
-	protected function respond($response,$index)
+	protected function respond($response,$index=null)
 	{
 		if ($response->isSucces())
 		{
-			return $response->getData($index);	
+			if (!empty($index))
+			{
+				return $response->getData($index);	
+			} else {
+				return $response->getBody();
+			}
 		} else {
 
 			$this->setError($response->getErrorMessage());

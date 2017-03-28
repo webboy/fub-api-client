@@ -48,7 +48,7 @@ class FubResponse
 	{
 		$code = $this->guzzle_response->getStatusCode();
 
-		if ($code == 200)
+		if ($code == 200 || $code == 201)
 		{
 			return true;
 		} else {
