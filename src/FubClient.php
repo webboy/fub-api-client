@@ -20,9 +20,23 @@ class FubClient
 
 	protected $error_message;
 
-	public function __construct()
+	protected $origin;
+
+	public function __construct($config=array())
 	{
-		$this->api_key = env('FUB_API_KEY',null);
+		if (!empty($config['api_key']))
+		{
+			$this->api_key = $config['api_key'];
+		} else {
+			$this->api_key = env('FUB_API_KEY',null);
+		}
+
+		if (!empty($config['origin']))
+		{
+			$this->origin = $config['origin'];
+		} else {
+			$this->origin = env('FUB_ORIGIN',null);
+		}
 
 		$this->http_client = new Client(['verify'=>false]);		
 
@@ -39,8 +53,31 @@ class FubClient
 		return $this->error_message;
 	}
 
+	protected function checkConfig()
+	{
+		if (empty($this->api_key))
+		{
+			$this->setError('Follow Up Boss api key is missing.');
+
+			return false;
+		}
+
+		if (empty($this->origin))
+		{
+			$this->setError('Follow Up Boss origin is missing.');
+
+			return false;
+		}
+	}
+
 	protected function request($method,$url,$params=null,$data=null)
 	{
+
+		if ($this->checkConfig() === false)
+		{
+			return false;
+		}
+
 		$final_url = $this->api_url.$url;
 
 		if (!empty($params) && is_array($params))
@@ -90,6 +127,11 @@ class FubClient
 
 	protected function respond($response,$index=null)
 	{
+		if (is_bool($response))
+		{
+			return $response;
+		}
+		
 		if ($response->isSucces())
 		{
 			if (!empty($index))

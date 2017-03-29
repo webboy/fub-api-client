@@ -25,7 +25,9 @@ class emCampaigns extends FubClient
 	}
 
 	public function create($campaign=null)
-	{		
+	{
+		$campaign['origin'] = $this->origin;
+
 		$response = $this->post($this->endpoint,$campaign);
 
 		return $this->respond($response);
