@@ -151,11 +151,6 @@ class FubClient
 
 	protected function respond($response,$index=null)
 	{
-        if ($this->isLoggingEnabled)
-        {
-            Log::info('FUB Log response: '.json_encode($response));
-        }
-
 		if (is_bool($response))
 		{
 			return $response;
