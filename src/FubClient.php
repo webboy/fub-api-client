@@ -78,6 +78,14 @@ class FubClient
 		}
 	}
 
+    /**
+     * @param $method
+     * @param $url
+     * @param null $params
+     * @param null $data
+     * @return bool|FubResponse
+     */
+
 	protected function request($method,$url,$params=null,$data=null)
 	{
 
