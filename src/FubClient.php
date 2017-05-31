@@ -2,11 +2,10 @@
 
 namespace Webboy\FubApiClient;
 
-use Webboy\FubApiClient\FubResponse;
-
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\Log;
 
 class FubClient 
 {
@@ -21,6 +20,8 @@ class FubClient
 	protected $error_message;
 
 	protected $origin;
+
+	protected $isLoggingEnabled;
 
 	public function __construct($config=array())
 	{
@@ -37,6 +38,13 @@ class FubClient
 		} else {
 			$this->origin = env('FUB_ORIGIN',null);
 		}
+
+        if (!empty($config['isLoggingEnabled']))
+        {
+            $this->isLoggingEnabled = $config['isLoggingEnabled'];
+        } else {
+            $this->isLoggingEnabled = env('FUB_LOGGING_ENABLED',true);
+        }
 
 		$this->http_client = new Client(['verify'=>false]);		
 
@@ -92,7 +100,21 @@ class FubClient
 
 		try
 		{
-			$response = new FubResponse($this->http_client->request($method,$final_url,$this->request_params));					
+		    if ($this->isLoggingEnabled)
+            {
+                $request_log['method'] = $method;
+                $request_log['url'] = $final_url;
+                $request_log['params'] = $this->request_params;
+                Log::info('FUB Log request: '.json_encode($request_log));
+            }
+			$response = new FubResponse($this->http_client->request($method,$final_url,$this->request_params));
+
+            if ($this->isLoggingEnabled)
+            {
+                Log::info('FUB Log response: '.json_encode($response));
+            }
+
+
 			return $response;
 			
 		} catch (ClientException $e)
