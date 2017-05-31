@@ -117,12 +117,6 @@ class FubClient
             }
 			$response = new FubResponse($this->http_client->request($method,$final_url,$this->request_params));
 
-            if ($this->isLoggingEnabled)
-            {
-                Log::info('FUB Log response: '.json_encode($response));
-            }
-
-
 			return $response;
 			
 		} catch (ClientException $e)
@@ -157,6 +151,11 @@ class FubClient
 
 	protected function respond($response,$index=null)
 	{
+        if ($this->isLoggingEnabled)
+        {
+            Log::info('FUB Log response: '.json_encode($response));
+        }
+
 		if (is_bool($response))
 		{
 			return $response;
