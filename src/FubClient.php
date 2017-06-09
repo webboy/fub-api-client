@@ -21,8 +21,6 @@ class FubClient
 
 	protected $origin;
 
-	protected $isLoggingEnabled;
-
 	public function __construct($config=array())
 	{
 		if (!empty($config['api_key']))
@@ -38,13 +36,6 @@ class FubClient
 		} else {
 			$this->origin = env('FUB_ORIGIN',null);
 		}
-
-        if (!empty($config['isLoggingEnabled']))
-        {
-            $this->isLoggingEnabled = $config['isLoggingEnabled'];
-        } else {
-            $this->isLoggingEnabled = env('FUB_LOGGING_ENABLED',true);
-        }
 
 		$this->http_client = new Client(['verify'=>false]);		
 
@@ -108,13 +99,6 @@ class FubClient
 
 		try
 		{
-		    if ($this->isLoggingEnabled)
-            {
-                $request_log['method'] = $method;
-                $request_log['url'] = $final_url;
-                $request_log['params'] = $this->request_params;
-                Log::info('FUB Log request: '.json_encode($request_log));
-            }
 			$response = new FubResponse($this->http_client->request($method,$final_url,$this->request_params));
 
 			return $response;
