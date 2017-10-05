@@ -1,8 +1,8 @@
 {
     "name": "webboy/fub-api-client",
-    "description": "Laravel 5.x api client library for Follow Up Boss service",
-    "version" : "1.0.7",
-    "keywords": ["FUB", "Follow Up Boss", "laravel","webboy"],
+    "description": "PHP client library for Follow Up Boss service",
+    "version" : "1.5",
+    "keywords": ["FUB", "Follow Up Boss", "webboy"],
     "license": "MIT",
     "authors": [
         {
@@ -15,7 +15,6 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
-        "laravel/framework": ">=5.1",
         "guzzlehttp/guzzle": "^6.2"
     },
     "autoload": {

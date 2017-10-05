@@ -1,25 +1,64 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Nemanja
+ * Date: 10/5/2017
+ * Time: 4:31 PM
+ */
 
 namespace Webboy\FubApiClient;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Psr7\Response;
 
 class FubClient 
 {
-	protected $api_key = '';
+    const VERSION = '1.5';
+    /**
+     * @var string $api_key
+     */
+    protected $api_key = '';
 
+    /**
+     * @var Client $http_client
+     */
 	protected $http_client;
 
+    /**
+     * @var string $api_url
+     */
 	protected $api_url = 'https://api.followupboss.com/v1/';
 
+    /**
+     * @var array $request_params
+     */
 	protected $request_params = array();
 
+    /**
+     * @var string $error_message
+     */
 	protected $error_message;
 
+    /**
+     * @var string $origin
+     */
 	protected $origin;
+
+    /**
+     * @var string $x_system
+     */
+	protected $x_system = '';
+
+    /**
+     * @var array $meta
+     */
+	public $meta = array();
+
+    /**
+     * FubClient constructor.
+     * @param array $config
+     */
 
 	public function __construct($config=array())
 	{
@@ -40,17 +79,52 @@ class FubClient
 		$this->http_client = new Client(['verify'=>false]);		
 
 		$this->request_params['auth'] = [$this->api_key,''];
+
+		//set up headers
+        $this->request_params['headers']['User-Agent']  = 'Webboy FUB PHP Client '.self::VERSION;
+        $this->request_params['headers']['Accept']      = 'application/json';
+
 	}
+
+    /**
+     * @param string $msg
+     * @return void
+     */
 
 	protected function setError($msg)
 	{
 		$this->error_message = $msg;
 	}
 
+    /**
+     * @return string
+     */
+
 	public function getError()
 	{
 		return $this->error_message;
 	}
+
+    /**
+     * @param string $x_system
+     * @return void
+     */
+	public function setXSystem($x_system='')
+    {
+        $this->x_system = $x_system;
+    }
+
+    /**
+     * @return string
+     */
+    public function getXSystem()
+    {
+        return $this->x_system;
+    }
+
+    /**
+     * @return bool
+     */
 
 	protected function checkConfig()
 	{
@@ -67,6 +141,8 @@ class FubClient
 
 			return false;
 		}
+
+		return true;
 	}
 
     /**
@@ -97,43 +173,75 @@ class FubClient
 			$this->request_params['form_params'] = $data;
 		}
 
-		try
-		{
-			$response = new FubResponse($this->http_client->request($method,$final_url,$this->request_params));
+		try {
 
-			return $response;
-			
-		} catch (ClientException $e)
-		{			
-			$response = new FubResponse($e->getResponse());
-			return $response;
+		    //Check X-System
+            if (!empty($this->x_system))
+            {
+                $this->request_params['headers']['X-System'] = $this->x_system;
+            }
 
-		} catch (RequestException $e)
-		{
-			dd($e);
-		} catch (\Exception $e) {
-			dd($e);
-    	}
+            $response = new FubResponse($this->http_client->request($method, $final_url, $this->request_params));
+            return $response;
+        } catch (ClientException $exception)
+        {
+            $response = new Response();
 
-    	
+            $this->setError($exception->getMessage());
+
+            return new FubResponse($response->withStatus($exception->getCode(),$exception->getMessage()));
+        }
 	}
 
-	public function get($url,$params=null)
+    /**
+     * @param string $url
+     * @param array $params
+     * @return bool|FubResponse
+     */
+
+	public function get($url,$params=array())
 	{
 		return $this->request('GET',$url,$params);		
 	}
 
-	public function post($url,$data=null)
+    /**
+     * @param string $url
+     * @param array $data
+     * @return bool|FubResponse
+     */
+
+	public function post($url,$data=array())
 	{
 		return $this->request('POST',$url,null,$data);
 	}
 
-	public function put($url,$data=null)
+    /**
+     * @param string $url
+     * @param array $data
+     * @return bool|FubResponse
+     */
+
+	public function put($url,$data=array())
 	{
 		return $this->request('PUT',$url,null,$data);
 	}
 
-	protected function respond($response,$index=null)
+    /**
+     * @param $url
+     * @return bool|FubResponse
+     */
+	public function delete($url)
+    {
+        return $this->request('DELETE',$url);
+    }
+
+    /**
+     * @param FubResponse $response
+     * @param null $index
+     * @return bool|mixed|null|FubResponse
+     */
+
+	protected function respond(FubResponse $response,$index=null)
 	{
 		if (is_bool($response))
 		{
@@ -142,6 +250,8 @@ class FubClient
 		
 		if ($response->isSucces())
 		{
+		    $this->meta = $response->getData('_metadata');
+
 			if (!empty($index))
 			{
 				return $response->getData($index);	
@@ -149,8 +259,6 @@ class FubClient
 				return $response->getBody();
 			}
 		} else {
-
-			$this->setError($response->getErrorMessage());
 
 			return false;
 		}
