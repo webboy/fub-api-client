@@ -1,2 +1,2 @@
-# fub-api-client
-Laravel 5.x api client library for Follow Up Boss service
+# FollowUpBoss API Client
+PHP api client library for Follow Up Boss service
