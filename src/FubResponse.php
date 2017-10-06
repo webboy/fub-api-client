@@ -29,7 +29,8 @@ class FubResponse
 	public function __construct(Response $response)
 	{
 		$this->guzzle_response = $response;
-		$this->response_body = @json_decode($response->getBody(),true);
+		$return = @json_decode($response->getBody(),true);
+		$this->response_body = is_array($return) ? $return : array();
 	}
 
     /**
@@ -49,12 +50,12 @@ class FubResponse
 	}
 
     /**
-     * @param string $index
-     * @return mixed|null
+     * @param $index
+     * @return array
      */
 	public function getData($index)
 	{
-		return (!empty($this->response_body[$index]) ? $this->response_body[$index] : null);
+		return (!empty($this->response_body[$index]) ? $this->response_body[$index] : array());
 	}
 
     /**
@@ -74,7 +75,7 @@ class FubResponse
 	}
 
     /**
-     * @return array|mixed
+     * @return array
      */
 	public function getBody()
 	{

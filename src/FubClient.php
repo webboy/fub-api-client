@@ -53,7 +53,17 @@ class FubClient
     /**
      * @var array $meta
      */
-	public $meta = array();
+    protected $meta = array();
+
+    /**
+     * @var Response $http_response;
+     */
+    protected $http_response;
+
+    /**
+     * @var integer $http_response_code
+     */
+    protected $http_response_code;
 
     /**
      * FubClient constructor.
@@ -123,6 +133,22 @@ class FubClient
     }
 
     /**
+     * @return Response
+     */
+    public function getHttpResponse()
+    {
+        return $this->http_response;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHttpResponseCode()
+    {
+        return $this->http_response_code;
+    }
+
+    /**
      * @return bool
      */
 
@@ -180,14 +206,16 @@ class FubClient
             {
                 $this->request_params['headers']['X-System'] = $this->x_system;
             }
-
-            $response = new FubResponse($this->http_client->request($method, $final_url, $this->request_params));
+            $this->http_response = $this->http_client->request($method, $final_url, $this->request_params);
+            $this->http_response_code = $this->http_response->getStatusCode();
+            $response = new FubResponse($this->http_response);
             return $response;
         } catch (ClientException $exception)
         {
             $response = new Response();
 
-            $this->setError($exception->getMessage());
+            $this->error_message = $exception->getMessage();
+            $this->http_response_code = $exception->getCode();
 
             return new FubResponse($response->withStatus($exception->getCode(),$exception->getMessage()));
         }
@@ -238,16 +266,10 @@ class FubClient
     /**
      * @param FubResponse $response
      * @param null $index
-     * @return bool|mixed|null|FubResponse
+     * @return array|bool
      */
-
 	protected function respond(FubResponse $response,$index=null)
 	{
-		if (is_bool($response))
-		{
-			return $response;
-		}
-		
 		if ($response->isSucces())
 		{
 		    $this->meta = $response->getData('_metadata');
