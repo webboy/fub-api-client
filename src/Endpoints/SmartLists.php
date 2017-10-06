@@ -11,12 +11,12 @@ namespace Webboy\FubApiClient\Endpoints;
 
 use Webboy\FubApiClient\FubClient;
 
-class CustomFields extends FubClient
+class SmartLists extends FubClient
 {
     /**
      * @var string $endpoint
      */
-    protected $endpoint = 'customFields';
+    protected $endpoint = 'smartLists';
 
     /**
      * @param array $query_params
@@ -26,7 +26,7 @@ class CustomFields extends FubClient
     {
         $response = $this->get($this->endpoint,$query_params);
 
-        return $this->respond($response,'customFields');
+        return $this->respond($response,'smartLists');
     }
 
     /**
