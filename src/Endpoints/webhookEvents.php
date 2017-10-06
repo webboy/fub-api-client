@@ -11,7 +11,7 @@ namespace Webboy\FubApiClient\Endpoints;
 
 use Webboy\FubApiClient\FubClient;
 
-class webhookEvents extends FubClient
+class WebhookEvents extends FubClient
 {
     /**
      * @var string $endpoint

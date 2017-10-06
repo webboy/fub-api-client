@@ -10,7 +10,7 @@ namespace Webboy\FubApiClient\Endpoints;
 
 use Webboy\FubApiClient\FubClient;
 
-class emEvents extends FubClient
+class EmEvents extends FubClient
 {
     /**
      * @var string $endpoint

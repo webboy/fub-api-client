@@ -11,7 +11,7 @@ namespace Webboy\FubApiClient\Endpoints;
 
 use Webboy\FubApiClient\FubClient;
 
-class customFields extends FubClient
+class CustomFields extends FubClient
 {
     /**
      * @var string $endpoint

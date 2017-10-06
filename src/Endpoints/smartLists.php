@@ -11,7 +11,7 @@ namespace Webboy\FubApiClient\Endpoints;
 
 use Webboy\FubApiClient\FubClient;
 
-class smartLists extends FubClient
+class SmartLists extends FubClient
 {
     /**
      * @var string $endpoint
