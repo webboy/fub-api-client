@@ -21,13 +21,13 @@ GET method that will list entities
 ### show($id)
 GET method that will retrieve data of a single entity. Requires `$id` to be provided
 
-###create($data)
+### create($data)
 POST method that will create an entity using the data provided in the `$data` parameter
 
-###update($id,$data)
+### update($id,$data)
 PUT method that will update the entity identified with `$id` using data provided in `$data` parameter
 
-###remove($id)
+### remove($id)
 DELETE method that will delete the entity identified with `$id`
 
 ## Example 1
