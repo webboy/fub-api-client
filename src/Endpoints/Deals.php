@@ -8,69 +8,18 @@
 
 namespace Webboy\FubApiClient\Endpoints;
 
-
-use Webboy\FubApiClient\FubClient;
-
-class Deals extends FubClient
+class Deals extends Common
 {
     /**
-     * @var string $endpoint
+     * Stages constructor.
+     * @param array $config
      */
-    protected $endpoint = 'deals';
-
-    /**
-     * @param array $query_params
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public function index($query_params=array())
+    public function __construct(array $config = array())
     {
-        $response = $this->get($this->endpoint,$query_params);
+        //Set endpoint and entity index
+        $this->setEndpoint('deals');
+        $this->setEntityIndex('deals');
 
-        return $this->respond($response,'deals');
-    }
-
-    /**
-     * @param array $data
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public function create($data=array())
-    {
-        $response = $this->post($this->endpoint,$data);
-
-        return $this->respond($response);
-    }
-
-    /**
-     * @param $id
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public function show($id)
-    {
-        $response = $this->get($this->endpoint.'/'.$id);
-
-        return $this->respond($response);
-    }
-
-    /**
-     * @param $id
-     * @param array $data
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public function update($id,$data=array())
-    {
-        $response = $this->put($this->endpoint.'/'.$id,$data);
-
-        return $this->respond($response);
-    }
-
-    /**
-     * @param $id
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public  function remove($id)
-    {
-        $response = $this->delete($this->endpoint.'/'.$id);
-
-        return $this->respond($response);
+        parent::__construct($config);
     }
 }

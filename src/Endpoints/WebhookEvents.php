@@ -9,23 +9,18 @@
 namespace Webboy\FubApiClient\Endpoints;
 
 
-use Webboy\FubApiClient\FubClient;
-
-class WebhookEvents extends FubClient
+class WebhookEvents extends Common
 {
     /**
-     * @var string $endpoint
+     * Stages constructor.
+     * @param array $config
      */
-    protected $endpoint = 'webhookEvents';
-
-    /**
-     * @param $id
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public function show($id)
+    public function __construct(array $config = array())
     {
-        $response = $this->get($this->endpoint.'/'.$id);
+        //Set endpoint and entity index
+        $this->setEndpoint('webhookEvents');
+        $this->setEntityIndex('webhookEvents');
 
-        return $this->respond($response);
+        parent::__construct($config);
     }
 }

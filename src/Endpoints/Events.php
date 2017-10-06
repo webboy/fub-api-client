@@ -11,43 +11,18 @@ namespace Webboy\FubApiClient\Endpoints;
 
 use Webboy\FubApiClient\FubClient;
 
-class Events extends FubClient
+class Events extends Common
 {
     /**
-     * @var string $endpoint
+     * Stages constructor.
+     * @param array $config
      */
-    protected $endpoint = 'events';
-
-    /**
-     * @param array $query_params
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public function index($query_params=array())
+    public function __construct(array $config = array())
     {
-        $response = $this->get($this->endpoint,$query_params);
+        //Set endpoint and entity index
+        $this->setEndpoint('events');
+        $this->setEntityIndex('events');
 
-        return $this->respond($response,'events');
-    }
-
-    /**
-     * @param array $event
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public function create($event=array())
-    {
-        $response = $this->post($this->endpoint,$event);
-
-        return $this->respond($response);
-    }
-
-    /**
-     * @param $id
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public function show($id)
-    {
-        $response = $this->get($this->endpoint.'/'.$id);
-
-        return $this->respond($response);
+        parent::__construct($config);
     }
 }

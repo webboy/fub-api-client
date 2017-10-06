@@ -9,35 +9,19 @@
 namespace Webboy\FubApiClient\Endpoints;
 
 
-use Webboy\FubApiClient\FubClient;
-
-class Users extends FubClient
+class Users extends Common
 {
     /**
-     * @var string $endpoint
+     * Stages constructor.
+     * @param array $config
      */
-    protected $endpoint = 'users';
-
-    /**
-     * @param array $query_params
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public function index($query_params=array())
+    public function __construct(array $config = array())
     {
-        $response = $this->get($this->endpoint,$query_params);
+        //Set endpoint and entity index
+        $this->setEndpoint('users');
+        $this->setEntityIndex('users');
 
-        return $this->respond($response,'users');
-    }
-
-    /**
-     * @param $id
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public function show($id)
-    {
-        $response = $this->get($this->endpoint.'/'.$id);
-
-        return $this->respond($response);
+        parent::__construct($config);
     }
 
     /**
@@ -45,7 +29,7 @@ class Users extends FubClient
      */
     public function me()
     {
-        $response = $this->get($this->endpoint.'/me');
+        $response = $this->get('me');
 
         return $this->respond($response);
     }
