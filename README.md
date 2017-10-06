@@ -73,3 +73,9 @@ array:15 [▼
   14 => array:13 [▶]
 ]
 ```
+
+## More documentation
+
+More documentation can be found on official FollowUpBoss webiste.
+
+[https://docs.followupboss.com/reference](https://docs.followupboss.com/reference)
