@@ -22,4 +22,15 @@ class EmCampaigns extends Common
 
         parent::__construct($config);
     }
+
+    /**
+     * @param array $data
+     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
+     */
+    public function create($data=array())
+    {
+        $data['origin'] = !empty($data['origin']) ? $data['origin'] : $this->getOrigin();
+
+        return parent::create($data);
+    }
 }

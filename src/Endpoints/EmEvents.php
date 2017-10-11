@@ -22,4 +22,15 @@ class EmEvents extends Common
 
         parent::__construct($config);
     }
+
+    /**
+     * @param array $data
+     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
+     */
+    public function create($data=array())
+    {
+        $data['emEvents'] = $data;
+
+        return parent::create($data);
+    }
 }

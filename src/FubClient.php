@@ -10,6 +10,8 @@ namespace Webboy\FubApiClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Response;
 
 class FubClient 
@@ -125,6 +127,14 @@ class FubClient
     }
 
     /**
+     * @return mixed|string
+     */
+    public function getOrigin()
+    {
+        return $this->origin;
+    }
+
+    /**
      * @return string
      */
     public function getXSystem()
@@ -211,6 +221,22 @@ class FubClient
             $response = new FubResponse($this->http_response);
             return $response;
         } catch (ClientException $exception)
+        {
+            $response = new Response();
+
+            $this->error_message = $exception->getMessage();
+            $this->http_response_code = $exception->getCode();
+
+            return new FubResponse($response->withStatus($exception->getCode(),$exception->getMessage()));
+        } catch (ConnectException $exception)
+        {
+            $response = new Response();
+
+            $this->error_message = $exception->getMessage();
+            $this->http_response_code = $exception->getCode();
+
+            return new FubResponse($response->withStatus($exception->getCode(),$exception->getMessage()));
+        } catch (ServerException $exception)
         {
             $response = new Response();
 
