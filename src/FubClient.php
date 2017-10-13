@@ -77,15 +77,11 @@ class FubClient
 		if (!empty($config['api_key']))
 		{
 			$this->api_key = $config['api_key'];
-		} else {
-			$this->api_key = env('FUB_API_KEY',null);
 		}
 
 		if (!empty($config['origin']))
 		{
 			$this->origin = $config['origin'];
-		} else {
-			$this->origin = env('FUB_ORIGIN',null);
 		}
 
 		$this->http_client = new Client(['verify'=>false]);		
@@ -186,7 +182,7 @@ class FubClient
      * @param $url
      * @param null $params
      * @param null $data
-     * @return bool|FubResponse
+     * @return FubResponse
      */
 
 	protected function request($method,$url,$params=null,$data=null)
@@ -194,7 +190,12 @@ class FubClient
 
 		if ($this->checkConfig() === false)
 		{
-			return false;
+            $response = new Response();
+
+            $this->error_message = 500;
+            $this->http_response_code = $this->getError();
+
+            return new FubResponse($response->withStatus(500,$this->getError()));
 		}
 
 		$final_url = $this->api_url.$url;
@@ -218,6 +219,7 @@ class FubClient
             }
             $this->http_response = $this->http_client->request($method, $final_url, $this->request_params);
             $this->http_response_code = $this->http_response->getStatusCode();
+            $this->error_message = $this->http_response->getReasonPhrase();
             $response = new FubResponse($this->http_response);
             return $response;
         } catch (ClientException $exception)
@@ -281,12 +283,13 @@ class FubClient
 	}
 
     /**
-     * @param $url
+     * @param string $url
+     * @param array $data
      * @return bool|FubResponse
      */
-	public function delete($url)
+	public function delete($url,$data=array())
     {
-        return $this->request('DELETE',$url);
+        return $this->request('DELETE',$url,null,$data);
     }
 
     /**

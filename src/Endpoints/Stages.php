@@ -23,4 +23,22 @@ class Stages extends Common
 
         parent::__construct($config);
     }
+
+    /**
+     * @param $id
+     * @param array $data
+     * @return array|bool
+     */
+    public function remove($id, $data = array())
+    {
+        if (!empty($data['assignStageId'])) {
+            $url = $this->endpoint . '/' . $id.'?assignStageId='.$data['assignStageId'];
+        } else {
+            $url = $this->endpoint . '/' . $id;
+        }
+
+        $response = $this->delete($url);
+
+        return $this->respond($response);
+    }
 }

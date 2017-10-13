@@ -95,11 +95,12 @@ class Common extends FubClient
 
     /**
      * @param $id
+     * @param array $data
      * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
      */
-    public  function remove($id)
+    public  function remove($id,$data=array())
     {
-        $response = $this->delete($this->endpoint.'/'.$id);
+        $response = $this->delete($this->endpoint.'/'.$id,$data);
 
         return $this->respond($response);
     }

@@ -17,8 +17,8 @@ class MyTestCase extends TestCase
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
-        $this->config['api_key']    = '';
-        $this->config['origin']     = '';
+        $this->config['api_key']    = $_SERVER['FUB_API_KEY'];
+        $this->config['origin']     = $_SERVER['FUB_ORIGIN'];
 
         parent::__construct($name, $data, $dataName);
     }

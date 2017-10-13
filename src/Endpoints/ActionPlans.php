@@ -25,39 +25,4 @@ class ActionPlans extends Common
 
         parent::__construct($config);
     }
-
-    /**
-     * @param array $query_params
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public function people($query_params=array())
-    {
-        $response = $this->get($this->endpoint.'People',$query_params);
-
-        return $this->respond($response,'actionPlansPeople');
-    }
-
-    /**
-     * @param array $data
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public function create($data=array())
-    {
-        $response = $this->post($this->endpoint.'People',$data);
-
-        return $this->respond($response);
-    }
-
-
-    /**
-     * @param $id
-     * @param array $data
-     * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
-     */
-    public function update($id,$data=array())
-    {
-        $response = $this->put($this->endpoint.'People/'.$id,$data);
-
-        return $this->respond($response);
-    }
 }

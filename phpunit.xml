@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="tests/bootstrap.php">
+    <php>
+        <server name="FUB_API_KEY" value="5412206e09555c29c1de67262359c1954c5f70" />
+        <server name="FUB_ORIGIN" value="Nemanja" />
+    </php>
     <testsuites>
         <testsuite name="fub-api-client">
             <directory>tests/api-client</directory>
