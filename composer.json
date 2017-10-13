@@ -1,7 +1,7 @@
 {
     "name": "webboy/fub-api-client",
     "description": "PHP client library for Follow Up Boss service",
-    "version" : "1.6.3",
+    "version" : "1.7",
     "keywords": ["FUB", "Follow Up Boss", "webboy"],
     "license": "MIT",
     "authors": [

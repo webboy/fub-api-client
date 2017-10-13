@@ -8,7 +8,10 @@
 
 namespace Webboy\FubApiClient\Endpoints;
 
-class CustomFields extends Common
+
+
+
+class ActionPlansPeople extends Common
 {
     /**
      * Stages constructor.
@@ -17,8 +20,8 @@ class CustomFields extends Common
     public function __construct(array $config = array())
     {
         //Set endpoint and entity index
-        $this->setEndpoint('customFields');
-        $this->setEntityIndex('customfields');
+        $this->setEndpoint('actionPlansPeople');
+        $this->setEntityIndex('actionPlansPeople');
 
         parent::__construct($config);
     }
