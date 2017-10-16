@@ -32,7 +32,7 @@ class DealsTest extends MyTestCase
         $data_pipeline['description']    = 'Pipeline description';
         $data_pipeline['stages'][] = $data_stage;
 
-        $pupeline = $client2->create($data_pipeline);
+        $client2->create($data_pipeline);
 
         $data['name']    = 'Deal name';
         $data['stageId']    = $stage['id'];
@@ -63,10 +63,13 @@ class DealsTest extends MyTestCase
 
         $list = $client->index();
 
-        $object = $client->show($list[0]['id']);
+        if (!empty($list[0]['id'])) {
 
-        $this->assertEquals(200,$client->getHttpResponseCode());
-        $this->assertEquals($object['id'],$list[0]['id']);
+            $object = $client->show($list[0]['id']);
+
+            $this->assertEquals(200, $client->getHttpResponseCode());
+            $this->assertEquals($object['id'], $list[0]['id']);
+        }
     }
 
     public function testUpdate()
@@ -75,13 +78,15 @@ class DealsTest extends MyTestCase
 
         $list = $client->index();
 
-        $object = $client->show($list[0]['id']);
+        if (!empty($list[0]['id'])) {
+            $object = $client->show($list[0]['id']);
 
-        $update['name'] = 'Disabled';
+            $update['name'] = 'Updated';
 
-        $updated = $client->update($object['id'],$update);
+            $updated = $client->update($object['id'], $update);
 
-        $this->assertEquals($update['name'],$updated['name']);
+            $this->assertEquals($update['name'], $updated['name']);
+        }
     }
 
     public function testRemove()
@@ -90,9 +95,11 @@ class DealsTest extends MyTestCase
 
         $list = $client->index();
 
-        $client->remove($list[0]['id']);
+        if (!empty($list[0]['id'])) {
+            $client->remove($list[0]['id']);
 
-        $this->assertEquals(200,$client->getHttpResponseCode());
+            $this->assertEquals(200, $client->getHttpResponseCode());
+        }
     }
 
 
