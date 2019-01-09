@@ -155,6 +155,14 @@ class FubClient
     }
 
     /**
+     * @return array
+     */
+    public function getMetadata()
+    {
+        return $this->meta;
+    }
+
+    /**
      * @return bool
      */
 
