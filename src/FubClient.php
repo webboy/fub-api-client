@@ -16,7 +16,7 @@ use GuzzleHttp\Psr7\Response;
 
 class FubClient 
 {
-    const VERSION = '1.7';
+    const VERSION = '1.10';
     /**
      * @var string $api_key
      */
