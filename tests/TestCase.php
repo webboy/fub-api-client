@@ -22,4 +22,12 @@ class MyTestCase extends TestCase
 
         parent::__construct($name, $data, $dataName);
     }
+    /**
+     * @param $value
+     * @return void
+     */
+    public function write($value){
+        fwrite(STDERR, print_r($value, TRUE));
+    }
+
 }

@@ -225,6 +225,7 @@ class FubClient
             {
                 $this->request_params['headers']['X-System'] = $this->x_system;
             }
+
             $this->http_response = $this->http_client->request($method, $final_url, $this->request_params);
             $this->http_response_code = $this->http_response->getStatusCode();
             $this->error_message = $this->http_response->getReasonPhrase();

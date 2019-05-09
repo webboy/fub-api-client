@@ -24,12 +24,12 @@ class EmEvents extends Common
     }
 
     /**
-     * @param array $data
+     * @param array $emEvents
      * @return bool|mixed|null|\Webboy\FubApiClient\FubResponse
      */
-    public function create($data=array())
+    public function create($emEvents=array())
     {
-        $data['emEvents'] = $data;
+        $data['emEvents'] = $emEvents;
 
         return parent::create($data);
     }
